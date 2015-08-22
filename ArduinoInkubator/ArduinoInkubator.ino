@@ -1,218 +1,88 @@
-#include <LiquidCrystal.h>
+/*----------------------------------------------------------------------*
+ * Example sketch for Arduino Button Library by Jack Christensen        *
+ *                                                                      *
+ * An example that uses both short and long button presses to adjust    *
+ * a number up and down, between two limits. Short presses increment    *
+ * or decrement by one, long presses repeat at a specified rate.        *
+ * Every time the number changes, it is written to the serial monitor.  *
+ *                                                                      *
+ * This work is licensed under the Creative Commons Attribution-        *
+ * ShareAlike 3.0 Unported License. To view a copy of this license,     *
+ * visit http://creativecommons.org/licenses/by-sa/3.0/ or send a       *
+ * letter to Creative Commons, 171 Second Street, Suite 300,            *
+ * San Francisco, California, 94105, USA.                               *
+ *----------------------------------------------------------------------*/
 
-LiquidCrystal lcd(32,30,28,26,24,22);
-/*
-    *** KONFIGURACIJA LCD-A S ARDUINO MEGA2560 PLOCOM ***
-      LCD RS pin ARDUINO MEGA pin 32
-      LCD E pin ARDUINO MEGA pin 30
-      LCD D4 pin  ARDUINO MEGA pin 28
-      LCD D5 pin ARDUINO MEGA pin 26
-      LCD D6 pin ARDUINO MEGA pin 24
-      LCD D7 pin ARDUINO MEGA pin 22
-*/
+#include "Button.h"        //https://github.com/JChristensen/Button
 
-byte customChars[][8] = {
-  {
-    B10000,
-    B11000,
-    B11100,
-    B11110,
-    B11100,
-    B11000,
-    B10000,
-    B00000
-  },
-  {
-    B00001,
-    B00011,
-    B00111,
-    B01111,
-    B00111,
-    B00011,
-    B00001,
-    B00000
-  },
-  {
-    B00000,
-    B00000,
-    B11111,
-    B11111,
-    B11111,
-    B11111,
-    B00000,
-    B00000
-  },
-  {
-    B11111,
-    B11111,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B11111,
-    B11111
-  },
-  {
-    B00000,
-    B01110,
-    B01110,
-    B11111,
-    B11111,
-    B01110,
-    B01110,
-    B00000
-  },
-  {
-    B11111,
-    B10001,
-    B10001,
-    B00000,
-    B00000,
-    B10001,
-    B10001,
-    B11111
-  },
-  {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000
-  },
-  {
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000
-  }
-};
+#define DN_PIN 25          //Connect two tactile button switches (or something similar)
+#define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
+#define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
+#define INVERT true        //Since the pullup resistor will keep the pin high unless the
+                           //switch is closed, this is negative logic, i.e. a high state
+                           //means the button is NOT pressed. (Assuming a normally open switch.)
+#define DEBOUNCE_MS 20     //A debounce time of 20 milliseconds usually works well for tactile button switches.
 
-int brojcanikS = 0;
-int brojcanikSo = brojcanikS;
-int enable = 0;
-unsigned long okPresedTime;
-unsigned long okStartTime;
+#define REPEAT_FIRST 500   //ms required before repeating on long press
+#define REPEAT_INCR 100    //repeat interval for long press
+#define MIN_COUNT 0
+#define MAX_COUNT 59
 
-int bl = 25;
-int bd = 29;
-int bo = 27;
+Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
+Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
-bool bds, bdso;
-bool bls, blso;
-bool bos, boso;
+enum {WAIT, INCR, DECR};              //The possible states for the state machine
+uint8_t STATE;                        //The current state machine state
+int count;                            //The number that is adjusted
+int lastCount = -1;                   //Previous value of count (initialized to ensure it's different when the sketch starts)
+unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive the repeats for long presses
 
-int okEdge = -1;
-bool okEdgeOld = 1;
-
-int brojStranica = 5;
-int killEnable = 2;
-
-String stranica[10]{
-  " Prva stranica  ",
-  " podatak 1      ",
-  " podatak 2      ",
-  " podatak 3      ",
-  " podatak 4      ",
-};
-
-void setup(){
-  Serial.begin(9600);
-  lcd.begin(16, 2);
-  for(byte i=0; i<8; i++) lcd.createChar(i, customChars[i]);
-  
-  pinMode(13, OUTPUT);
-  printGornjiRed(brojcanikS);
-
-  pinMode(bl, INPUT_PULLUP);
-  pinMode(bd, INPUT_PULLUP);
-  pinMode(bo, INPUT_PULLUP);
-
-  bds = digitalRead(bd); bdso = bds;
-  bls = digitalRead(bl); blso = bls;
-  bos = digitalRead(bo); boso = bos;
+void setup(void)
+{
+    Serial.begin(115200);
 }
 
-void loop(){
-  bds = digitalRead(bd);
-  bls = digitalRead(bl);
-  bos = digitalRead(bo);
-
-  digitalWrite(13, enable);
-
-  if(okEdge == 0){
-    okPresedTime = millis() - okStartTime;
-    if(okPresedTime > 1000 && enable == 0) enable = 2;
-  }
-
-  if(bos != boso){
-    delay(10);
-    if(bos != boso){
-      if(bos == LOW){
-        okEdge = 0;
-        okStartTime = millis();
-        if(enable) enable --;
-      }
-      else {
-        okEdge = 1;
-      }
-
-      if(enable == 2){
-        lcd.setCursor(15, 1);
-        lcd.write(byte(0));
-        lcd.setCursor(0, 1);
-        lcd.write(byte(1));
-      }
-
-      else{
-        lcd.setCursor(15, 1);
-        lcd.write(" ");
-        lcd.setCursor(0, 1);
-        lcd.write(" ");
-      }
-      boso = bos;
+void loop(void)
+{
+    btnUP.read();                             //read the buttons
+    btnDN.read();
+    
+    if (count != lastCount) {                 //print the count if it has changed
+        lastCount = count;
+        Serial.println(count, DEC);
     }
-  }
+    
+    switch (STATE) {
+        
+        case WAIT:                                //wait for a button event
+            if (btnUP.wasPressed())
+                STATE = INCR;
+            else if (btnDN.wasPressed())
+                STATE = DECR;
+            else if (btnUP.wasReleased())         //reset the long press interval
+                rpt = REPEAT_FIRST;
+            else if (btnDN.wasReleased())
+                rpt = REPEAT_FIRST;
+            else if (btnUP.pressedFor(rpt)) {     //check for long press
+                rpt += REPEAT_INCR;               //increment the long press interval
+                STATE = INCR;
+            }
+            else if (btnDN.pressedFor(rpt)) {
+                rpt += REPEAT_INCR;
+                STATE = DECR;
+            }
+            break;
 
-  if(bds != bdso){
-    delay(10);
-    if(bds != bdso){
-      if(bds == LOW){
-        if(enable == 2){
-          brojcanikS ++;
-          if(brojcanikS == brojStranica) brojcanikS = 0;
-        }
-      }
-      bdso = bds;
+        case INCR:                                //increment the counter
+            count = min(count++, MAX_COUNT);      //but not more than the specified maximum
+            STATE = WAIT;
+            break;
+
+        case DECR:                                //decrement the counter
+            count = max(count--, MIN_COUNT);      //but not less than the specified minimum
+            STATE = WAIT;
+            break;
     }
-  }
-
-  if(bls != blso){
-    delay(10);
-    if(bls != blso){
-      if(bls == LOW){
-        if(enable == 2){
-          brojcanikS --;
-          if(brojcanikS == -1) brojcanikS = brojStranica-1;
-        }
-      }
-      blso = bls;
-    }
-  }
-
-  if(brojcanikS != brojcanikSo){
-    printGornjiRed(brojcanikS);
-    brojcanikSo = brojcanikS;
-  }
 }
 
-void printGornjiRed(byte i){
-  lcd.setCursor(0,0);
-  lcd.print(stranica[i]);
-}
+
