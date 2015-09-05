@@ -15,7 +15,6 @@
 
 #include "Button.h"        //https://github.com/JChristensen/Button
 
-
 #define DN_PIN 25          //Connect two tactile button switches (or something similar)
 #define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
