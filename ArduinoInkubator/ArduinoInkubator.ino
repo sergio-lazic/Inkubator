@@ -19,8 +19,8 @@
 #define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
 #define INVERT true        //Since the pullup resistor will keep the pin high unless the
-                           //switch is closed, this is negative logic, i.e. a high state
-                           //means the button is NOT pressed. (Assuming a normally open switch.)
+				  //switch is closed, this is negative logic, i.e. a high state
+				  //means the button is NOT pressed. (Assuming a normally open switch.)
 #define DEBOUNCE_MS 20     //A debounce time of 20 milliseconds usually works well for tactile button switches.
 
 #define REPEAT_FIRST 500   //ms required before repeating on long press
@@ -38,49 +38,48 @@ int lastCount = -1;                   //Previous value of count (initialized to 
 unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive the repeats for long presses
 
 void setup(void){
-  pinMode(13, OUTPUT);
-    Serial.begin(115200);
+	pinMode(13, OUTPUT);
+	Serial.begin(115200);
 }
 
 void loop(void){
-    digitalWrite(13, !digitalRead(13)); delay(1000);
-    btnUP.read();                             //read the buttons
-    btnDN.read();
+	digitalWrite(13, !digitalRead(13)); delay(50);
+	btnUP.read();                             //read the buttons
+	btnDN.read();
 
-    if (count != lastCount) {                 //print the count if it has changed
-        lastCount = count;
-        Serial.println(count, DEC);
-    }
+	if (count != lastCount) {                 //print the count if it has changed
+		lastCount = count;
+		Serial.println(count, DEC);
+	}
 
-    switch (STATE) {
+	switch (STATE) {
+	case WAIT:                                //wait for a button event
+	if (btnUP.wasPressed())
+		STATE = INCR;
+	else if (btnDN.wasPressed())
+		STATE = DECR;
+	else if (btnUP.wasReleased())         //reset the long press interval
+		rpt = REPEAT_FIRST;
+	else if (btnDN.wasReleased())
+		rpt = REPEAT_FIRST;
+	else if (btnUP.pressedFor(rpt)) {     //check for long press
+		rpt += REPEAT_INCR;               //increment the long press interval
+		STATE = INCR;
+	}
+	else if (btnDN.pressedFor(rpt)) {
+		rpt += REPEAT_INCR;
+		STATE = DECR;
+	}
+	break;
 
-        case WAIT:                                //wait for a button event
-            if (btnUP.wasPressed())
-                STATE = INCR;
-            else if (btnDN.wasPressed())
-                STATE = DECR;
-            else if (btnUP.wasReleased())         //reset the long press interval
-                rpt = REPEAT_FIRST;
-            else if (btnDN.wasReleased())
-                rpt = REPEAT_FIRST;
-            else if (btnUP.pressedFor(rpt)) {     //check for long press
-                rpt += REPEAT_INCR;               //increment the long press interval
-                STATE = INCR;
-            }
-            else if (btnDN.pressedFor(rpt)) {
-                rpt += REPEAT_INCR;
-                STATE = DECR;
-            }
-            break;
+	case INCR:                                //increment the counter
+		count = min(count++, MAX_COUNT);      //but not more than the specified maximum
+		STATE = WAIT;
+	break;
 
-        case INCR:                                //increment the counter
-            count = min(count++, MAX_COUNT);      //but not more than the specified maximum
-            STATE = WAIT;
-            break;
-
-        case DECR:                                //decrement the counter
-            count = max(count--, MIN_COUNT);      //but not less than the specified minimum
-            STATE = WAIT;
-            break;
-    }
+	case DECR:                                //decrement the counter
+		count = max(count--, MIN_COUNT);      //but not less than the specified minimum
+		STATE = WAIT;
+		break;
+	}
 }
