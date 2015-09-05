@@ -41,6 +41,7 @@ int lastCount = -1;                   //Previous value of count (initialized to 
 unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive the repeats for long presses
 
 void setup(void){
+	lcd.begin(16, 2);
 	lcd.clear();
 	lcd.print("Hello bitchez!");
 	lcd.setCursor(0, 1);
