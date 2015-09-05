@@ -44,14 +44,14 @@ void setup(void){
 void loop(void){
     btnUP.read();                             //read the buttons
     btnDN.read();
-    
+
     if (count != lastCount) {                 //print the count if it has changed
         lastCount = count;
         Serial.println(count, DEC);
     }
-    
+
     switch (STATE) {
-        
+
         case WAIT:                                //wait for a button event
             if (btnUP.wasPressed())
                 STATE = INCR;
