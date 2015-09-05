@@ -43,6 +43,7 @@ unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive th
 void setup(void){
 	lcd.clear();
 	lcd.print("Hello bitchez!");
+	lcd.setCursor(1, 0);
 	pinMode(13, OUTPUT);
 	Serial.begin(115200);
 }
