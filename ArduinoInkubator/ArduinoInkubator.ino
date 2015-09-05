@@ -14,6 +14,8 @@
  *----------------------------------------------------------------------*/
 
 #include "Button.h"        //https://github.com/JChristensen/Button
+#include <LiquidCrystal.h>
+
 
 #define DN_PIN 25          //Connect two tactile button switches (or something similar)
 #define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
@@ -28,6 +30,7 @@
 #define MIN_COUNT 0
 #define MAX_COUNT 59
 
+LiquidCrystal lcd (32,30,28,26,24,22);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
 Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
