@@ -1,20 +1,18 @@
 #!/bin/bash
 
 cd /home/pi/Documents/Inkubator
-if [ ! -d "arduinoFIles" ]; then
-	mkdir $DIRECTORY
-fi
+mkdir arduinoFiles
+cd arduinoFiles
 
-cd $DIRECTORY
+ino init
 
-if [ ! -d "src" ]; then
-	ino init
-fi
-
-cp /home/pi/Documents/Inkubator/ArduinoInkubator/ArduinoInkubator.ino /home/pi/Documents/Inkubator/arduinoFIles/src/sketch.ino
-cp /home/pi/Documents/Inkubator/ArduinoInkubator/. /home/pi/Documents/Inkubator/arduinoFIles/src/ -R
+cp /home/pi/Documents/Inkubator/ArduinoInkubator/ArduinoInkubator.ino /home/pi/Documents/Inkubator/arduinoFiles/src/sketch.ino
+cp /home/pi/Documents/Inkubator/ArduinoInkubator/. /home/pi/Documents/Inkubator/arduinoFiles/src/ -R
 rm /home/pi/Documents/Inkubator/arduinoFiles/src/ArduinoInkubator.ino
 
 ino build -m mega2560
 ino upload -m mega2560 -p /dev/ttyUSB0
 ino clean
+
+cd ..
+rm -r -f arduinoFiles
