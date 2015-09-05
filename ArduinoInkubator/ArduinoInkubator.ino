@@ -44,6 +44,7 @@ void setup(void){
 	lcd.clear();
 	lcd.print("Hello bitchez!");
 	lcd.setCursor(1, 0);
+	lcd.print("lawl");
 	pinMode(13, OUTPUT);
 	Serial.begin(115200);
 }
