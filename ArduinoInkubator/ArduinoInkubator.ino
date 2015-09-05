@@ -43,7 +43,7 @@ void setup(void){
 }
 
 void loop(void){
-  digitalWrite(13, !digitalRead(13)); delay(500);
+  digitalWrite(13, !digitalRead(13)); delay(50);
     btnUP.read();                             //read the buttons
     btnDN.read();
 
