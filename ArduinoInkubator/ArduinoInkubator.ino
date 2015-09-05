@@ -39,10 +39,12 @@ int lastCount = -1;                   //Previous value of count (initialized to 
 unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive the repeats for long presses
 
 void setup(void){
+  pinMOde(13, OUTPUT);
     Serial.begin(115200);
 }
 
 void loop(void){
+  digitalWrite(13, !digitalRead(13));
     btnUP.read();                             //read the buttons
     btnDN.read();
 
