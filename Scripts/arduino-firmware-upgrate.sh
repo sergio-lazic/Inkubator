@@ -10,6 +10,7 @@ cp /home/pi/Documents/Inkubator/ArduinoInkubator/ArduinoInkubator.ino /home/pi/D
 cp /home/pi/Documents/Inkubator/ArduinoInkubator/. /home/pi/Documents/Inkubator/arduinoFiles/src/ -R
 rm /home/pi/Documents/Inkubator/arduinoFiles/src/ArduinoInkubator.ino
 
+killall python
 ino build -m leonardo
 ino upload -m leonardo -p /dev/ttyACM0
 ino clean
