@@ -2,10 +2,10 @@
 #include "DHT.h"
 #include <LiquidCrystal.h>
 
-#define DN_PIN 25          //Connect two tactile button switches (or something similar)
-#define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
-#define OK_PIN 27
-#define BL_PIN 3
+#define DN_PIN 7          //Connect two tactile button switches (or something similar)
+#define UP_PIN 5          //from Arduino pin 2 to ground and from pin 3 to ground.
+#define OK_PIN 6
+#define BL_PIN 5
 #define HTR_PIN 12
 #define FAN_PIN 10
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
@@ -38,30 +38,30 @@ unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive th
 bool okFlag = false;
 int longPress = 500;
 void setup(void){
-	lcd.begin(16, 2);
-	lcd.clear();
-	lcd.print(" Hallo bitchez! ");
-	pinMode(13, OUTPUT);
-	pinMode(BL_PIN, OUTPUT);
-	pinMode(HTR_PIN, OUTPUT);
-	pinMode(FAN_PIN, OUTPUT);
-	Serial.begin(115200);
-	dht.begin();
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.print(" Hallo bitchez! ");
+  pinMode(13, OUTPUT);
+  pinMode(BL_PIN, OUTPUT);
+  pinMode(HTR_PIN, OUTPUT);
+  pinMode(FAN_PIN, OUTPUT);
+  Serial.begin(115200);
+  dht.begin();
 }
 
 void loop(void){
-	if(Serial.available()) serialHandler();
-	btnUP.read(); btnDN.read(); btnOK.read();
+  if(Serial.available()) serialHandler();
+  btnUP.read(); btnDN.read(); btnOK.read();
 
-		 if (btnUP.wasReleased()) Serial.println("btnUP");
-	else if (btnDN.wasReleased()) Serial.println("btnDN");
-	else if (btnUP.pressedFor(longPress)){ Serial.println("btnUP"); btnUP.reset(); }
-	else if (btnDN.pressedFor(longPress)){ Serial.println("btnDN"); btnDN.reset(); }
-	else if (btnOK.pressedFor(longPress)){ Serial.println("btnOKL"); okFlag= true; } 
-	else if (btnOK.wasReleased()){
-		if(okFlag) okFlag= false;
-		else Serial.println("btnOKL");
-	}
+       if (btnUP.wasReleased()) Serial.println("btnUP");
+  else if (btnDN.wasReleased()) Serial.println("btnDN");
+  else if (btnUP.pressedFor(longPress)){ Serial.println("btnUP"); btnUP.reset(); }
+  else if (btnDN.pressedFor(longPress)){ Serial.println("btnDN"); btnDN.reset(); }
+  else if (btnOK.pressedFor(longPress*2)){ Serial.println("btnOKL"); okFlag= true; btnOK.reset(); } 
+  else if (btnOK.wasReleased()){
+    if(okFlag) okFlag= false;
+    else Serial.println("btnOK");
+  }
 }
 
 void serialHandler(){
@@ -80,3 +80,4 @@ void sendSensorValue(){
   Serial.print(",");
   Serial.println(dht.readHumidity());
 }
+
