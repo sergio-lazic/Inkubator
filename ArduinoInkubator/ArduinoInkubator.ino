@@ -39,7 +39,7 @@ unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive th
 void setup(void){
 	lcd.begin(16, 2);
 	lcd.clear();
-	lcd.print("Hallo bitchez!");
+	lcd.print(" Hallo bitchez! ");
 	pinMode(13, OUTPUT);
 	pinMode(BL_PIN, OUTPUT);
 	pinMode(HTR_PIN, OUTPUT);
