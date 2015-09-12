@@ -1,12 +1,8 @@
 #!/usr/bin/python
-import serial, subprocess
-from datetime import datetime
+
+import serial
 from time import sleep
-
-arduino = serial.Serial("/dev/ttyACM0", 115200)
-
-def arduinoSend(data):
-  arduino.write(data)
-  sleep(0.05)
-
-arduinoSend("string")
+ser = serial.Serial("/dev/ttyACM0", 115200)
+ser.flushInput(); ser.flushOutput()
+sleep(0.1)
+ser.write("data\n")
