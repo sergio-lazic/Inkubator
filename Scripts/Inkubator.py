@@ -1,6 +1,6 @@
 import json, serial, time
 
-info = "vrste.meni"
+info = "data.json"
 vrsta = "empty"
 temp = 0;
 vlag = 0;
