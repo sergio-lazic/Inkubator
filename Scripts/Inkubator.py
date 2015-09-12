@@ -9,12 +9,4 @@ def arduinoSend(data):
   arduino.write(data)
   sleep(0.05)
 
-hour = datetime.now().strftime("%H")
-minute = datetime.now().strftime("%M")
-second = datetime.now().strftime("%S")
-string = hour + ':' + minute + ":" + second
-while len(string) < 20: string = ' ' + string
-string = '23' + string + '\n'
-arduinoSend(string)
-
-print "bok!"
+arduinoSend("string")
