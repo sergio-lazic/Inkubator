@@ -1,6 +1,6 @@
 import json, serial, time
 
-info = "data.json"
+info = "/home/pi/Documents/Inkubator/Scripts/data.json"
 vrsta = "empty"
 temp = 0;
 vlag = 0;
@@ -45,7 +45,7 @@ def meniUp():
 
 def meniDown():
 	global status
-	status<0:
+	if status<0:
 		status=len(data)-1
 	meniFunc.display()
 
