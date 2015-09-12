@@ -35,59 +35,33 @@ uint8_t STATE;                        //The current state machine state
 int count;                            //The number that is adjusted
 int lastCount = -1;                   //Previous value of count (initialized to ensure it's different when the sketch starts)
 unsigned long rpt = REPEAT_FIRST;     //A variable time that is used to drive the repeats for long presses
-
+bool okFlag = false;
+int longPress = 500;
 void setup(void){
-  lcd.begin(16, 2);
-  lcd.clear();
-  lcd.print(" Hallo bitchez! ");
-  pinMode(13, OUTPUT);
-  pinMode(BL_PIN, OUTPUT);
-  pinMode(HTR_PIN, OUTPUT);
-  pinMode(FAN_PIN, OUTPUT);
-  Serial.begin(115200);
-  dht.begin();
+	lcd.begin(16, 2);
+	lcd.clear();
+	lcd.print(" Hallo bitchez! ");
+	pinMode(13, OUTPUT);
+	pinMode(BL_PIN, OUTPUT);
+	pinMode(HTR_PIN, OUTPUT);
+	pinMode(FAN_PIN, OUTPUT);
+	Serial.begin(115200);
+	dht.begin();
 }
 
 void loop(void){
-  if(Serial.available()) serialHandler();
-  btnUP.read();                             //read the buttons
-  btnDN.read();
+	if(Serial.available()) serialHandler();
+	btnUP.read(); btnDN.read(); btnOK.read();
 
-  if (count != lastCount) {                 //print the count if it has changed
-    lastCount = count;
-    Serial.println(count, DEC);
-  }
-
-  switch (STATE) {
-  case WAIT:                                //wait for a button event
-  if (btnUP.wasPressed())
-    STATE = INCR;
-  else if (btnDN.wasPressed())
-    STATE = DECR;
-  else if (btnUP.wasReleased())         //reset the long press interval
-    rpt = REPEAT_FIRST;
-  else if (btnDN.wasReleased())
-    rpt = REPEAT_FIRST;
-  else if (btnUP.pressedFor(rpt)) {     //check for long press
-    rpt += REPEAT_INCR;               //increment the long press interval
-    STATE = INCR;
-  }
-  else if (btnDN.pressedFor(rpt)) {
-    rpt += REPEAT_INCR;
-    STATE = DECR;
-  }
-  break;
-
-  case INCR:                                //increment the counter
-    count = min(count++, MAX_COUNT);      //but not more than the specified maximum
-    STATE = WAIT;
-  break;
-
-  case DECR:                                //decrement the counter
-    count = max(count--, MIN_COUNT);      //but not less than the specified minimum
-    STATE = WAIT;
-    break;
-  }
+		 if (btnUP.wasReleased()) Serial.println("btnUP");
+	else if (btnDN.wasReleased()) Serial.println("btnDN");
+	else if (btnUP.pressedFor(longPress)){ Serial.println("btnUP"); btnUP.reset(); }
+	else if (btnDN.pressedFor(longPress)){ Serial.println("btnDN"); btnDN.reset(); }
+	else if (btnOK.pressedFor(longPress)){ Serial.println("btnOKL"); okFlag= true; } 
+	else if (btnOK.wasReleased()){
+		if(okFlag) okFlag= false;
+		else Serial.println("btnOKL");
+	}
 }
 
 void serialHandler(){
@@ -104,6 +78,5 @@ void serialHandler(){
 void sendSensorValue(){
   Serial.print(dht.readTemperature());
   Serial.print(",");
-  Serial.print(dht.readHumidity());
-  Serial.print("\n");
+  Serial.println(dht.readHumidity());
 }

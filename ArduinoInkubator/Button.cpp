@@ -133,3 +133,13 @@ uint32_t Button::lastChange(void)
 {
     return _lastChange;
 }
+
+/*----------------------------------------------------------------------*
+ * reset() fucks up everithing,                                         *
+ * in milliseconds.                                                     *
+ *----------------------------------------------------------------------*/
+void Button::reset(void)
+{
+    _time = millis();
+    _lastChange = _time;
+}
