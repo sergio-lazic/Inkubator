@@ -52,7 +52,6 @@ void setup(void){
 
 void loop(void){
 	if(Serial.available()) stringHandler(Serial.readStringUntil('\n'));
-	digitalWrite(13, !digitalRead(13)); delay(50);
 	btnUP.read();                             //read the buttons
 	btnDN.read();
 
