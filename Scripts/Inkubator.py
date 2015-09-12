@@ -3,7 +3,7 @@ import serial, subprocess
 from datetime import datetime
 from time import sleep
 
-arduino = serial.Serial("/dev/ttyUSB0", 115200)
+arduino = serial.Serial("/dev/ttyACM0", 115200)
 
 def arduinoSend(data):
   arduino.write(data)
