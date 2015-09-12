@@ -30,7 +30,7 @@
 #define MIN_COUNT 0
 #define MAX_COUNT 59
 
-LiquidCrystal lcd (32,30,28,26,24,22);
+LiquidCrystal lcd (A0, A1, A2, A3, A4, A5);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
 Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
