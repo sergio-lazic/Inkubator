@@ -102,6 +102,8 @@ void serialHandler(){
 }
 
 void sendSensorValue(){
-  Serial.print(dht.readTemperature()); Serial.print(","); Serial.print(dht.readHumidity()); Serial.print("\n");
-  Serial.print(data);
+  Serial.print(dht.readTemperature());
+  Serial.print(",");
+  Serial.print(dht.readHumidity());
+  Serial.print("\n");
 }
