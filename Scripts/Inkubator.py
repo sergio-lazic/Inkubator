@@ -118,6 +118,7 @@ def meni():
 			elif inData =="btnOKL":
 				meniFunc.okl()
 
+meniFunc=statusMeni
 while 1:
 	meni()
 	time.sleep(0.1)
