@@ -19,6 +19,7 @@
 
 #define DN_PIN 25          //Connect two tactile button switches (or something similar)
 #define UP_PIN 29          //from Arduino pin 2 to ground and from pin 3 to ground.
+#define OK_PIN 27
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
 #define INVERT true        //Since the pullup resistor will keep the pin high unless the
 				  //switch is closed, this is negative logic, i.e. a high state
@@ -33,6 +34,7 @@
 LiquidCrystal lcd (A0, A1, A2, A3, A4, A5);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
 Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
+Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
 enum {WAIT, INCR, DECR};              //The possible states for the state machine
 uint8_t STATE;                        //The current state machine state
