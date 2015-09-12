@@ -143,3 +143,4 @@ void Button::reset(void)
     _time = millis();
     _lastChange = _time;
 }
+
