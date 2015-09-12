@@ -92,16 +92,16 @@ void loop(void){
 
 void serialHandler(){
 	String data = Serial.readStringUntil('\n');
-	if(data.startsWith("sc")) lcd.setCursor(data.substring(data.indexOf(':'), data.indexOf(',')).toInt(), data.substring(data.indexOf(','), data.length()).toInt());
-	else if(data.startsWith("h")) digitalWrite(HTR_PIN, data.substring(data.indexOf(':'), data.length()).toInt());
-	else if(data.startsWith("f")) digitalWrite(FAN_PIN, data.substring(data.indexOf(':'), data.length()).toInt());
-	else if(data.startsWith("bl")) analogWrite(data.substring(data.indexOf(':'), data.length().toInt()), BL_PIN);
-	else if(data.startsWith("lcd")) lcd.print(data.substring(data.indexOf(':'), data.length()));
+	if(data.startsWith("sc")) lcd.setCursor(data.substring(data.indexOf(':')+1, data.indexOf(',')).toInt(), data.substring(data.indexOf(',')+1, data.length()).toInt());
+	else if(data.startsWith("h")) digitalWrite(HTR_PIN, data.substring(data.indexOf(':')+1, data.length()).toInt());
+	else if(data.startsWith("f")) digitalWrite(FAN_PIN, data.substring(data.indexOf(':')+1, data.length()).toInt());
+	else if(data.startsWith("bl")) analogWrite(data.substring(data.indexOf(':')+1, data.length()).toInt(), BL_PIN);
+	else if(data.startsWith("lcd")) lcd.print(data.substring(data.indexOf(':')+1, data.length()));
 	else if(data.startsWith("rs")) sendSensorValue();
 	else Serial.print("fof\n");
 }
 
 void sendSensorValue(){
-	String data = dht.readTemperature() + "," + dht.readHumidity() + "\n";
+	String data = String(dht.readTemperature()) + "," + String(dht.readHumidity()) + "\n";
 	Serial.print(data);
 }
