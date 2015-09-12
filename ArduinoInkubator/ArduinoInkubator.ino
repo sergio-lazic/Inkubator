@@ -51,6 +51,7 @@ void setup(void){
 }
 
 void loop(void){
+	if(Serial.available()) stringHandler(Serial.readStringUntil('\n'));
 	digitalWrite(13, !digitalRead(13)); delay(50);
 	btnUP.read();                             //read the buttons
 	btnDN.read();
@@ -90,4 +91,10 @@ void loop(void){
 		STATE = WAIT;
 		break;
 	}
+}
+
+void stringHandler(String data){
+	lcd.clear();
+	lcd.setCursor(0, 0);
+	lcd.print(data);
 }
