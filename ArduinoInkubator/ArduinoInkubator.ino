@@ -1,19 +1,5 @@
-/*----------------------------------------------------------------------*
- * Example sketch for Arduino Button Library by Jack Christensen        *
- *                                                                      *
- * An example that uses both short and long button presses to adjust    *
- * a number up and down, between two limits. Short presses increment    *
- * or decrement by one, long presses repeat at a specified rate.        *
- * Every time the number changes, it is written to the serial monitor.  *
- *                                                                      *
- * This work is licensed under the Creative Commons Attribution-        *
- * ShareAlike 3.0 Unported License. To view a copy of this license,     *
- * visit http://creativecommons.org/licenses/by-sa/3.0/ or send a       *
- * letter to Creative Commons, 171 Second Street, Suite 300,            *
- * San Francisco, California, 94105, USA.                               *
- *----------------------------------------------------------------------*/
-
 #include "Button.h"        //https://github.com/JChristensen/Button
+#include "DHT.h"
 #include <LiquidCrystal.h>
 
 
@@ -31,10 +17,15 @@
 #define MIN_COUNT 0
 #define MAX_COUNT 59
 
+#define DHTPIN 2
+#define DHTTYPE DHT21
+
 LiquidCrystal lcd (A0, A1, A2, A3, A4, A5);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
 Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
+
+DHT dht(DHTPIN, DHTTYPE);
 
 enum {WAIT, INCR, DECR};              //The possible states for the state machine
 uint8_t STATE;                        //The current state machine state
@@ -50,6 +41,8 @@ void setup(void){
 	lcd.print("lawl");
 	pinMode(13, OUTPUT);
 	Serial.begin(115200);
+
+	dht.begin();
 }
 
 void loop(void){
@@ -99,3 +92,9 @@ void stringHandler(String data){
 	lcd.setCursor(0, 0);
 	lcd.print(data);
 }
+
+void readSenosrs(){
+	Serial.print(dht.readHumidity()); Serial.print("%,");
+	Serial.print(dht.readTemperature()); Serial.println("*C");
+}
+
