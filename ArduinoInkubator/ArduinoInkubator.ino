@@ -20,6 +20,7 @@
 #define DHTPIN 2
 #define DHTTYPE DHT21
 
+
 LiquidCrystal lcd (A0, A1, A2, A3, A4, A5);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
 Button btnDN(DN_PIN, PULLUP, INVERT, DEBOUNCE_MS);
