@@ -31,17 +31,17 @@ data = json.loads(data)
 
 #cuuuzz meni
 
-def btnHandler(inputData):
-	print(inputData)
-	if inputData == "OKL" and menuLayer == 0:
-		menuLayer = 1
-		toLCD(0,0,"       LOL      ")
-
 def toLCD(x, y, data):
 	arduino.write(setCursor+com+x+","+y+"\n")
 	print setCursor+com+x+","+y+"\n"
 	arduino.write(writeText+com+data+"\n")
 	print writeText+com+data+"\n"
+
+def btnHandler(inputData):
+	print(inputData)
+	if inputData == "OKL" and menuLayer == 0:
+		menuLayer = 1
+		toLCD(0,0,"       LOL      ")
 
 def menuDisplay():
 	global status, data
