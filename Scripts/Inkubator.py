@@ -121,7 +121,7 @@ def meni():
 	if arduino.inWaiting():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
-		else print inData
+		else: print inData
 
 meniFunc=statusMeni
 while 1:
