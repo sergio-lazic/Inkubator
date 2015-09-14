@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import json, serial, time
 
 info = "/home/pi/Documents/Inkubator/Scripts/data.json"
@@ -22,12 +21,15 @@ ventOn="f"
 ventOff="f"
 heater="h"
 
+
+
 file = open(info, 'r')
 data = file.read()
 file.close()
 data = json.loads(data)
 
 #cuuuzz meni
+
 def menuDisplay():
 	global status, data
 	arduino.write(setCursor+com+"0,0\n")
@@ -52,7 +54,7 @@ def meniOk():
 	meniFunc=setMeni
 	meniFunc.display()
 
-mainMeni={"display": menuDisplay, "meniUp":meniUp, "meniDown":meniDown, "meniOk":meniOk, "meniOkl":meniOk, "namez":"main"}
+mainMeni={"display": menuDisplay, "meniUp":meniUp, "meniDown":meniDown, "meniOk":meniOk, "meniOkl":meniOk, "name":"main"}
 
 #set meni
 
@@ -72,7 +74,7 @@ def setOk():
 	meniFunc=statusMeni
 	meniFunc.display()
 
-setMeni={"display": setDisplay, "meniUp":setUp, "meniDown":setDown, "meniOk":setOk, "meniOkl":setOk, "namez":"set"}
+setMeni={"display": setDisplay, "meniUp":setUp, "meniDown":setDown, "meniOk":setOk, "meniOkl":setOk, "name":"set"}
 #status meni
 
 def statusOk():
@@ -96,27 +98,25 @@ def statusDisplay():
 def dummy():
 	pass
 
-statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":dummy, "meniOkl":statusOk, "namez":"status"}
+statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":dummy, "meniOkl":statusOk, "name":"status"}
 
 #######
 
 def meni():
 	global meniFunc
+
 	if arduino.inWaiting():
-		inData=arduino.readline()
-		print inData
-		if inData=="btnUP":
-			print "UP"
-			meniFunc.meniUp()
-		elif inData=="btnDN":
-			print "DN"
-			meniFunc.meniDown()
-		elif inData =="btnOK":
-			print "OK"
-			meniFunc.ok()
-		elif inData =="btnOKL":
-			print "OKL"
-			meniFunc.okl()
+		inDatas=arduino.read(arduino.inWaiting()).translate(None,"\n")
+		btns=inDatas.SPLIT('\n')
+		for inData in inDatas:
+			if inData=="btnUP":
+				meniFunc.meniUp()
+			elif inData=="btnDN":
+				meniFunc.meniDown()
+			elif inData =="btnOK":
+				meniFunc.ok()
+			elif inData =="btnOKL":
+				meniFunc.okl()
 
 meniFunc=statusMeni
 while 1:
