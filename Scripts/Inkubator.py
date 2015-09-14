@@ -9,6 +9,8 @@ dan = 0;
 status=0;
 meniFunc=0
 
+menuLayer = 0
+
 dInfo={"vrsta":"empty","temp":0,"vlag":0}
 
 arduino = serial.Serial("/dev/ttyACM0", 115200)
@@ -31,6 +33,12 @@ data = json.loads(data)
 
 def btnHandler(inputData):
 	print(inputData)
+	if inputData == "OKL" and menuLayer == 0:
+		menuLayer = 1
+
+def toLCD(x, y, data):
+	arduino.write(setCursor+com+x+","+y+"\n")
+	arduino.write(writeText+com+"       LOL      ")
 
 def menuDisplay():
 	global status, data
@@ -87,15 +95,15 @@ def statusDisplay():
 	arduino.write(setCursor+com+"0,0\n")		#print wrsta
 	arduino.write(writeText+com+"vrsta"+"\n")
 	if dan>9:									#print dani inkubacije
-		arduino.write(setCursor+com+"0,14")
+		arduino.write(setCursor+com+"0,14\n")
 	else:
-		arduino.write(setCursor+com+"0,15")
+		arduino.write(setCursor+com+"0,15\n")
 	arduino.write(writeText+com+str(dan)+"\n")
 
-	arduino.write(setCursor+com+"1,1")			#print temp
-	arduino.write(writeText+com+"T:"+str(temp))
-	arduino.write(setCursor+com+"1,6")			#print vlaga
-	arduino.write(writeText+com+"V:"+str(vlag))
+	arduino.write(setCursor+com+"1,1\n")			#print temp
+	arduino.write(writeText+com+"T:"+str(temp)+"\n")
+	arduino.write(setCursor+com+"1,6\n")			#print vlaga
+	arduino.write(writeText+com+"V:"+str(vlag)+"\n")
 
 def dummy():
 	pass
