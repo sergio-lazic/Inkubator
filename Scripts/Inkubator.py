@@ -107,7 +107,7 @@ def meni():
 	global meniFunc
 
 	if arduino.inWaiting():
-		inData=arduino.read(arduino.inWaiting()).translate(None,"\n")
+		inData=arduino.readline().translate(None,"\n")
 		if inData=="btnUP":
 			meniFunc.meniUp()
 		elif inData=="btnDN":
