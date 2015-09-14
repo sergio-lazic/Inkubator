@@ -132,7 +132,9 @@ def meni():
 	if arduino.inWaiting():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
-		else: print inData
+		else:
+			print datetime.now().strftime("%y-%m-%d %h:%M:%S "),
+			print inData
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:
