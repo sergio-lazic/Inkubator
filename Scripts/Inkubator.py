@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import json, serial, time
 
 info = "/home/pi/Documents/Inkubator/Scripts/data.json"
