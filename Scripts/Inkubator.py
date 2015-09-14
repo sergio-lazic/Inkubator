@@ -133,8 +133,9 @@ def meni():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
 		else:
-			print datetime.now().strftime("%y-%m-%d %h:%M:%S "),
-			print inData
+			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
+			inData = inData.split(',')
+			print inData[1] + "°C hum=" + inData[2] + "%"
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:
