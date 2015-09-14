@@ -40,7 +40,7 @@ def toLCD(x, y, data):
 
 def btnHandler(inputData):
 	print(inputData)
-	if inputData == "OKL": # and menuLayer == 0:
+	if "OKL" in inputData: # and menuLayer == 0:
 		menuLayer = 1
 		toLCD(0,0,"       LOL      ")
 
