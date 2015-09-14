@@ -87,7 +87,7 @@ void sendSensorValue(){
 void sensorDataToLDC(){
   lcd.setCursor(0,1);
   lcd.print(dht.readTemperature(),1);
-  lcd.print("C hum ");
+  lcd.print("C  hum=");
   lcd.print(dht.readHumidity(),1);
   lcd.print("%");
 }
