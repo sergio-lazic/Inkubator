@@ -32,7 +32,6 @@ file.close()
 data = json.loads(data)
 
 #cuuuzz meni
-
 def toLCD(x, y, data):
 	arduino.flushInput(); arduino.flushOutput()
 	arduino.write(setCursor+com+str(x)+","+str(y)+"\n"+writeText+com+data+"\n")
@@ -80,7 +79,6 @@ def meniOk():
 mainMeni={"display": menuDisplay, "meniUp":meniUp, "meniDown":meniDown, "meniOk":meniOk, "meniOkl":meniOk, "name":"main"}
 
 #set meni
-
 def setDisplay():
 	arduino.write(setCursor+com+"0,0\n")
 	arduino.write(writeText+com+dInfo.vrsta)
@@ -124,7 +122,6 @@ def dummy():
 statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":dummy, "meniOkl":statusOk, "name":"status"}
 
 #######
-
 didiIt = 0
 def meni():
 	global meniFunc
