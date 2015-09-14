@@ -125,6 +125,7 @@ statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":
 
 #######
 
+didiIt = 0
 def meni():
 	global meniFunc
 
@@ -133,8 +134,10 @@ def meni():
 		if "btn" in inData: btnHandler(inData[3:])
 		else: print inData
 
-	if int(datetime.now().strftime("%S"))%10 == 0:
-		print "FUCK THIS SHIT!" 
+	if int(datetime.now().strftime("%S"))%10 == 0 and didiIt = 0:
+		didiIt = 1
+		print "FUCK THIS SHIT!"
+	else: didiIt = 0
 	#datetime.now().strftime("sec 0,year %Y,month %m,day %d,hour %H,min %M,sec %S")
 
 meniFunc=statusMeni
