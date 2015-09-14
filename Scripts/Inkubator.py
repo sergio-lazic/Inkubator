@@ -33,8 +33,8 @@ data = json.loads(data)
 
 def toLCD(x, y, data):
 	arduino.flushInput(); arduino.flushOutput()
-	arduino.write(setCursor+com+x+","+y+"\n")
-	print setCursor+com+x+","+y+"\n"
+	arduino.write(setCursor+com+str(x)+","+str(y)+"\n")
+	print setCursor+com+str(x)+","+str(y)+"\n"
 	arduino.write(writeText+com+data+"\n")
 	print writeText+com+data+"\n"
 
