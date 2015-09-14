@@ -22,14 +22,15 @@ ventOn="f"
 ventOff="f"
 heater="h"
 
-
-
 file = open(info, 'r')
 data = file.read()
 file.close()
 data = json.loads(data)
 
 #cuuuzz meni
+
+def btnHandler(inputData):
+	print(inputData)
 
 def menuDisplay():
 	global status, data
@@ -108,14 +109,7 @@ def meni():
 
 	if arduino.inWaiting():
 		inData=arduino.readline().translate(None,"\n")
-		if inData=="btnUP":
-			meniFunc.meniUp()
-		elif inData=="btnDN":
-			meniFunc.meniDown()
-		elif inData =="btnOK":
-			meniFunc.ok()
-		elif inData =="btnOKL":
-			meniFunc.okl()
+		if "btn" in inData: btnHandler(inData[3:])
 
 meniFunc=statusMeni
 while 1:
