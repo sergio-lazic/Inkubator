@@ -22,15 +22,12 @@ ventOn="f"
 ventOff="f"
 heater="h"
 
-
-
 file = open(info, 'r')
 data = file.read()
 file.close()
 data = json.loads(data)
 
 #cuuuzz meni
-
 def menuDisplay():
 	global status, data
 	arduino.write(setCursor+com+"0,0\n")
@@ -55,7 +52,7 @@ def meniOk():
 	meniFunc=setMeni
 	meniFunc.display()
 
-mainMeni={"display": menuDisplay, "meniUp":meniUp, "meniDown":meniDown, "meniOk":meniOk, "meniOkl":meniOk, "name":"main"}
+mainMeni={"display": menuDisplay, "meniUp":meniUp, "meniDown":meniDown, "meniOk":meniOk, "meniOkl":meniOk, "namez":"main"}
 
 #set meni
 
@@ -75,7 +72,7 @@ def setOk():
 	meniFunc=statusMeni
 	meniFunc.display()
 
-setMeni={"display": setDisplay, "meniUp":setUp, "meniDown":setDown, "meniOk":setOk, "meniOkl":setOk, "name":"set"}
+setMeni={"display": setDisplay, "meniUp":setUp, "meniDown":setDown, "meniOk":setOk, "meniOkl":setOk, "namez":"set"}
 #status meni
 
 def statusOk():
@@ -99,7 +96,7 @@ def statusDisplay():
 def dummy():
 	pass
 
-statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":dummy, "meniOkl":statusOk, "name":"status"}
+statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":dummy, "meniOkl":statusOk, "namez":"status"}
 
 #######
 
