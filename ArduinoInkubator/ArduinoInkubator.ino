@@ -40,7 +40,7 @@ int longPress = 500;
 void setup(void){
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print(" Srki Inkubator ");
+  lcd.print(" smartInkubator ");
   pinMode(13, OUTPUT);
   pinMode(BL_PIN, OUTPUT);
   pinMode(HTR_PIN, OUTPUT);
