@@ -10,6 +10,7 @@ status=0;
 meniFunc=0
 
 menuLayer = 0
+menuIndex = 0
 
 dInfo={"vrsta":"empty","temp":0,"vlag":0}
 
@@ -39,9 +40,15 @@ def toLCD(x, y, data):
 
 def btnHandler(inputData):
 	print(inputData)
-	if "OKL" in inputData: # and menuLayer == 0:
+	if "OKL" in inputData and menuLayer == 0:
 		menuLayer = 1
 		toLCD(0,0,"       LOL      ")
+	if "UP" in inputData and menuLayer == 1:
+		menuIndex = menuIndex + 1
+		toLCD(0,0,str(menuIndex)+" ")
+	if "DN" in inputData and menuLayer == 1:
+		menuIndex = menuIndex - 1
+		toLCD(0,0,str(menuIndex)+" ")
 
 def menuDisplay():
 	global status, data
