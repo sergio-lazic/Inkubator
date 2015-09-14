@@ -107,17 +107,15 @@ def meni():
 	global meniFunc
 
 	if arduino.inWaiting():
-		inDatas=arduino.read(arduino.inWaiting()).translate(None,"\n")
-		btns=inDatas.SPLIT('\n')
-		for inData in inDatas:
-			if inData=="btnUP":
-				meniFunc.meniUp()
-			elif inData=="btnDN":
-				meniFunc.meniDown()
-			elif inData =="btnOK":
-				meniFunc.ok()
-			elif inData =="btnOKL":
-				meniFunc.okl()
+		inData=arduino.read(arduino.inWaiting()).translate(None,"\n")
+		if inData=="btnUP":
+			meniFunc.meniUp()
+		elif inData=="btnDN":
+			meniFunc.meniDown()
+		elif inData =="btnOK":
+			meniFunc.ok()
+		elif inData =="btnOKL":
+			meniFunc.okl()
 
 meniFunc=statusMeni
 while 1:
