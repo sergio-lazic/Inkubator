@@ -128,7 +128,7 @@ statusMeni={"display":statusDisplay, "meniUp":dummy, "meniDown":dummy, "meniOk":
 didiIt = 0
 def meni():
 	global meniFunc
-
+	global didiIt
 	if arduino.inWaiting():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
