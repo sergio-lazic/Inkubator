@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import json, serial, time
+from datetime import datetime
 
 info = "/home/pi/Documents/Inkubator/Scripts/data.json"
 vrsta = "empty"
@@ -131,6 +132,10 @@ def meni():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
 		else: print inData
+
+	if int(datetime.now().strftime("%S"))%10 == 0:
+		print "FUCK THIS SHIT!" 
+	#datetime.now().strftime("sec 0,year %Y,month %m,day %d,hour %H,min %M,sec %S")
 
 meniFunc=statusMeni
 while 1:
