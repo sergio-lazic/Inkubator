@@ -61,6 +61,8 @@ void loop(void){
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
     else Serial.println("btnOK");
+
+    sensorDataToLDC();
   }
 }
 
@@ -80,5 +82,13 @@ void sendSensorValue(){
   Serial.print(dht.readTemperature());
   Serial.print(",");
   Serial.println(dht.readHumidity());
+}
+
+void sensorDataToLDC(){
+  lcd.setCursor(0,1);
+  lcd.print(dht.readTemperature());
+  lcd.print("°C  hum=");
+  lcd.print(dht.readHumidity());
+  lcd.print("%");
 }
 
