@@ -39,7 +39,9 @@ def btnHandler(inputData):
 
 def toLCD(x, y, data):
 	arduino.write(setCursor+com+x+","+y+"\n")
+	print setCursor+com+x+","+y+"\n"
 	arduino.write(writeText+com+data+"\n")
+	print writeText+com+data+"\n"
 
 def menuDisplay():
 	global status, data
