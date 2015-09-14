@@ -104,14 +104,18 @@ def meni():
 	global meniFunc
 	if arduino.inWaiting():
 		inData=arduino.readline()
-		print inData.split()
+		print inData
 		if inData=="btnUP":
+			print "UP"
 			meniFunc.meniUp()
 		elif inData=="btnDN":
+			print "DN"
 			meniFunc.meniDown()
 		elif inData =="btnOK":
+			print "OK"
 			meniFunc.ok()
 		elif inData =="btnOKL":
+			print "OKL"
 			meniFunc.okl()
 
 meniFunc=statusMeni
