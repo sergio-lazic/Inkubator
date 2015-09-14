@@ -79,9 +79,9 @@ void serialHandler(){
 }
 
 void sendSensorValue(){
-  Serial.print(dht.readTemperature());
+  Serial.print(dht.readTemperature(),1);
   Serial.print(",");
-  Serial.println(dht.readHumidity());
+  Serial.println(dht.readHumidity(),1);
 }
 
 void sensorDataToLDC(){

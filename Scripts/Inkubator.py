@@ -136,7 +136,7 @@ def meni():
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:
-			print "FUCK THIS SHIT!"
+			arduino.write("rs\n")
 		didiIt = 1
 	else: didiIt = 0
 	#datetime.now().strftime("sec 0,year %Y,month %m,day %d,hour %H,min %M,sec %S")
