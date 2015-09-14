@@ -39,6 +39,8 @@ def toLCD(x, y, data):
 	print writeText+com+data
 
 def btnHandler(inputData):
+	global menuLayer
+	global menuIndex
 	print(inputData)
 	if "OKL" in inputData and menuLayer == 0:
 		menuLayer = 1
