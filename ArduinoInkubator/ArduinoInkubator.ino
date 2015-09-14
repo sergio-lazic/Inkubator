@@ -61,9 +61,9 @@ void loop(void){
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
     else Serial.println("btnOK");
-
-    sensorDataToLDC();
   }
+
+  sensorDataToLDC();
 }
 
 void serialHandler(){
