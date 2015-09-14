@@ -33,10 +33,9 @@ data = json.loads(data)
 
 def toLCD(x, y, data):
 	arduino.flushInput(); arduino.flushOutput()
-	arduino.write(setCursor+com+str(x)+","+str(y)+"\n")
-	print setCursor+com+str(x)+","+str(y)+"\n"
-	arduino.write(writeText+com+data+"\n")
-	print writeText+com+data+"\n"
+	arduino.write(setCursor+com+str(x)+","+str(y)+"\n"+writeText+com+data+"\n")
+	print setCursor+com+str(x)+","+str(y)
+	print writeText+com+data
 
 def btnHandler(inputData):
 	print(inputData)
@@ -120,8 +119,9 @@ def meni():
 	global meniFunc
 
 	if arduino.inWaiting():
-		inData=arduino.readline().translate(None,"\n")
+		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
+		else print inData
 
 meniFunc=statusMeni
 while 1:

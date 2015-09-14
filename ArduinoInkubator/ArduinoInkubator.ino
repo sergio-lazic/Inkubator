@@ -72,7 +72,8 @@ void serialHandler(){
   else if(data.startsWith("bl")) analogWrite(data.substring(data.indexOf(':')+1, data.length()).toInt(), BL_PIN);
   else if(data.startsWith("lcd")) lcd.print(data.substring(data.indexOf(':')+1, data.length()));
   else if(data.startsWith("rs")) sendSensorValue();
-  else Serial.print("fof\n");
+  else Serial.println(data);
+
 }
 
 void sendSensorValue(){
