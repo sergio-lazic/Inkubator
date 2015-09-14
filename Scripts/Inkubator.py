@@ -134,7 +134,7 @@ def meni():
 		if "btn" in inData: btnHandler(inData[3:])
 		else: print inData
 
-	if int(datetime.now().strftime("%S"))%10 == 0 and didiIt = 0:
+	if int(datetime.now().strftime("%S"))%10 == 0 and didiIt == 0:
 		didiIt = 1
 		print "FUCK THIS SHIT!"
 	else: didiIt = 0
