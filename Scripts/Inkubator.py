@@ -102,6 +102,8 @@ def statusOk():
 	meniFunc=mainMeni
 	meniFunc.display()
 
+
+
 def statusDisplay():
 	arduino.write(setCursor+com+"0,0\n")		#print wrsta
 	arduino.write(writeText+com+"vrsta"+"\n")
