@@ -32,9 +32,6 @@ data = file.read()
 file.close()
 data = json.loads(data)
 
-def termostat():
-	if curentTemp > temp+1
-
 #cuuuzz meni
 def toLCD(x, y, data):
 	arduino.flushInput(); arduino.flushOutput()
