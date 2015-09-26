@@ -6,7 +6,7 @@
 #define UP_PIN 5          //from Arduino pin 2 to ground and from pin 3 to ground.
 #define OK_PIN 6
 #define BL_PIN 5
-#define HTR_PIN 12
+#define HTR_PIN 9
 #define FAN_PIN 10
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
 #define INVERT true        //Since the pullup resistor will keep the pin high unless the
