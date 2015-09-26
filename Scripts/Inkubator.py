@@ -133,11 +133,16 @@ def meni():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
 		else:
-			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
-			inData = inData.split(',')
-			print inData[0] + "C " + inData[1] + "% " + "h=" + inData[2] + " f=" + inData[3]
+			if inData.count(',') == 3:
+				print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
+				inData = inData.split(',')
+				print inData[0] + "C " + inData[1] + "% " + "h=" + inData[2] + " f=" + inData[3]
+			else :
+				print 'Fail'
+				arduino.flushInput(); arduino.flushOutput()
+				arduino.write("rs\n")
 
-	if int(datetime.now().strftime("%S"))%10 == 0:
+	if int(datetime.now().strftime("%S"))%2 == 0:
 		if didiIt == 0:
 			arduino.write("rs\n")
 		didiIt = 1
