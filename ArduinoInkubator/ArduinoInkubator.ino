@@ -30,6 +30,9 @@ Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
 DHT dht(DHTPIN, DHTTYPE);
 
+float currentTemperature, currentHumidity;
+unsigned long tick, tack;
+
 enum {WAIT, INCR, DECR};              //The possible states for the state machine
 uint8_t STATE;                        //The current state machine state
 int count;                            //The number that is adjusted
@@ -50,6 +53,7 @@ void setup(void){
 }
 
 void loop(void){
+  tick=millis();
   if(Serial.available()) serialHandler();
   btnUP.read(); btnDN.read(); btnOK.read();
 
@@ -63,7 +67,13 @@ void loop(void){
     else Serial.println("btnOK");
   }
 
-  sensorDataToLDC();
+  
+  if(tick >= (tack+1000)){
+    tack = millis();tack -= millis()%10;
+    readDHT();
+    sensorDataToLDC();
+    termostat(26);
+  }
 }
 
 void serialHandler(){
@@ -79,17 +89,26 @@ void serialHandler(){
 }
 
 void sendSensorValue(){
-  Serial.print(dht.readTemperature(),1);
+  Serial.print(currentTemperature,1);
   Serial.print(",");
-  Serial.println(dht.readHumidity(),1);
+  Serial.println(currentHumidity,1);
 }
 
 void sensorDataToLDC(){
   lcd.setCursor(0,1);
-  lcd.print(dht.readTemperature(),1);
+  lcd.print(currentTemperature,1);
   lcd.print("C  hum=");
-  lcd.print(dht.readHumidity(),1);
+  lcd.print(currentHumidity,1);
   lcd.print("%");
+}
+
+void termostat(float temp){
+  if (currentTemperature >= temp+1) digitalWrite(HTR_PIN, LOW);
+  if (currentTemperature <= temp-1) digitalWrite(HTR_PIN, HIGH);
+}
+void readDHT(){
+  currentTemperature = dht.readTemperature();
+  currentHumidity = dht.readHumidity();
 }
 
 
