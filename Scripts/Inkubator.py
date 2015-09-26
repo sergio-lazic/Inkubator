@@ -4,7 +4,8 @@ from datetime import datetime
 
 info = "/home/pi/Documents/Inkubator/Scripts/data.json"
 vrsta = "empty"
-temp = 0;
+temp = 26;
+curentTemp = None;
 vlag = 0;
 dan = 0;
 status=0;
@@ -30,6 +31,9 @@ file = open(info, 'r')
 data = file.read()
 file.close()
 data = json.loads(data)
+
+def termostat():
+	if curentTemp > temp+1
 
 #cuuuzz meni
 def toLCD(x, y, data):
@@ -134,7 +138,8 @@ def meni():
 		else:
 			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
 			inData = inData.split(',')
-			print inData[0] + "C hum=" + inData[1] + "%"
+			print inData[0] + "C\thum=" + inData[1] + "%\t" + "heater=" + inData[2] + "\tfan=" + inData[3]
+			curentTemp = int(inData[0])
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:

@@ -91,7 +91,11 @@ void serialHandler(){
 void sendSensorValue(){
   Serial.print(currentTemperature,1);
   Serial.print(",");
-  Serial.println(currentHumidity,1);
+  Serial.print(currentHumidity,1);
+  Serial.print(",");
+  Serial.print(digitalRead(HTR_PIN));
+  Serial.print(",");
+  Serial.println(digitalRead(FAN_PIN));
 }
 
 void sensorDataToLDC(){
