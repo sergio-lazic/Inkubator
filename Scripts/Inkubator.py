@@ -136,7 +136,6 @@ def meni():
 			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
 			inData = inData.split(',')
 			print inData[0] + "C\thum=" + inData[1] + "%\t" + "heater=" + inData[2] + "\tfan=" + inData[3]
-			curentTemp = int(inData[0])
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:
