@@ -135,7 +135,7 @@ def meni():
 		else:
 			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
 			inData = inData.split(',')
-			print inData[0] + "C\t" + inData[1] + "%\t" + "h=" + inData[2] + "\tf=" + inData[3]
+			print inData[0] + "C " + inData[1] + "% " + "h=" + inData[2] + " f=" + inData[3]
 
 	if int(datetime.now().strftime("%S"))%10 == 0:
 		if didiIt == 0:
