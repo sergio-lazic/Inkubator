@@ -133,6 +133,7 @@ def meni():
 		inData=arduino.readline().translate(None,"\n\r")
 		if "btn" in inData: btnHandler(inData[3:])
 		else:
+			print inData.count(',')
 			print datetime.now().strftime("%y-%m-%d %H:%M:%S "),
 			inData = inData.split(',')
 			print inData[0] + "C " + inData[1] + "% " + "h=" + inData[2] + " f=" + inData[3]

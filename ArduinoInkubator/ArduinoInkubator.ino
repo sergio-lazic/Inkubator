@@ -52,7 +52,6 @@ void setup(void){
 }
 
 void loop(void){
-  tick=millis();
   if(Serial.available()) serialHandler();
   btnUP.read(); btnDN.read(); btnOK.read();
 
@@ -66,13 +65,9 @@ void loop(void){
     else Serial.println("btnOK");
   }
 
-  
-  if(tick >= (tack+1000)){
-    tack = millis();tack -= millis()%10;
-    readDHT();
-    sensorDataToLDC();
-    termostat(26);
-  }
+  readDHT();
+  sensorDataToLDC();
+  termostat(26);
 }
 
 void serialHandler(){
