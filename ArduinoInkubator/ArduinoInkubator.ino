@@ -21,7 +21,6 @@
 
 #define DHTPIN 2
 #define DHTTYPE DHT21
-//komentar
 
 LiquidCrystal lcd (A0, A1, A2, A3, A4, A5);
 Button btnUP(UP_PIN, PULLUP, INVERT, DEBOUNCE_MS);    //Declare the buttons
@@ -107,8 +106,8 @@ void sensorDataToLDC(){
 }
 
 void termostat(float temp){
-  if (currentTemperature >= temp+1) digitalWrite(HTR_PIN, LOW);
-  if (currentTemperature <= temp-1) digitalWrite(HTR_PIN, HIGH);
+  if (currentTemperature >= temp+0.1) digitalWrite(HTR_PIN, LOW);
+  if (currentTemperature <= temp-0.1) digitalWrite(HTR_PIN, HIGH);
 }
 void readDHT(){
   currentTemperature = dht.readTemperature();
