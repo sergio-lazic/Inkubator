@@ -67,7 +67,7 @@ void loop(void){
 
   readDHT();
   sensorDataToLDC();
-  termostat(26);
+  termostat(28);
 }
 
 void serialHandler(){
