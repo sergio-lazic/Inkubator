@@ -1,6 +1,7 @@
 #include "Button.h"        //https://github.com/JChristensen/Button
 #include "DHT.h"
 #include <LiquidCrystal.h>
+#include "Menu.h"
 
 #define DN_PIN 7          //Connect two tactile button switches (or something similar)
 #define UP_PIN 5          //from Arduino pin 2 to ground and from pin 3 to ground.
@@ -10,8 +11,6 @@
 #define FAN_PIN 10
 #define PULLUP true        //To keep things simple, we use the Arduino's internal pullup resistor.
 #define INVERT true        //Since the pullup resistor will keep the pin high unless the
-          //switch is closed, this is negative logic, i.e. a high state
-          //means the button is NOT pressed. (Assuming a normally open switch.)
 #define DEBOUNCE_MS 20     //A debounce time of 20 milliseconds usually works well for tactile button switches.
 
 #define REPEAT_FIRST 500   //ms required before repeating on long press
@@ -42,7 +41,7 @@ int longPress = 500;
 void setup(void){
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print(" smartInkubator ");
+  lcd.print(stranica[0]);
   pinMode(13, OUTPUT);
   pinMode(BL_PIN, OUTPUT);
   pinMode(HTR_PIN, OUTPUT);
