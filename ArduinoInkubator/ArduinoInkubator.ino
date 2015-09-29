@@ -71,7 +71,7 @@ void loop(void){
   }
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
-    //if(menuLvl) menuLvl++;
+    if(menuLvl > 0) menuLvl++;
     else Serial.println(menuLvl);
   }
 
@@ -84,6 +84,7 @@ void loop(void){
     sensorDataToLDC();
     termostat(tempArray[menuItm]);
   }
+  if (menuLvl > 2) menuLvl = 0;
 }
 
 void serialHandler(){
