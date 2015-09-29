@@ -1,7 +1,6 @@
 #include "Button.h"        //https://github.com/JChristensen/Button
 #include "DHT.h"
 #include <LiquidCrystal.h>
-#include "Menu.h"
 
 #define DN_PIN 7          //Connect two tactile button switches (or something similar)
 #define UP_PIN 5          //from Arduino pin 2 to ground and from pin 3 to ground.
@@ -28,12 +27,18 @@ Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
 DHT dht(DHTPIN, DHTTYPE);
 
-dataMenu leopard("geko", 25,25);
-dataMenu toDisplay("void", 0, 0);
+String nameArray[]{
+  " Leopard Gekon  ",
+  " Crested Gekon  ",
+  " Bradata Agama  "
+};
+float tempArray[]{
+  28, 25, 27
+};
 
 float currentTemperature, currentHumidity;
-unsigned long tick, tack;
 
+int menuItmOld = 0, menuItm = 0, menuLvl = 0;
 enum {WAIT, INCR, DECR};              //The possible states for the state machine
 uint8_t STATE;                        //The current state machine state
 int count;                            //The number that is adjusted
@@ -44,36 +49,41 @@ int longPress = 500;
 void setup(void){
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print(leopard.name());
+  lcd.print(" smartInkubator ");
   pinMode(13, OUTPUT);
   pinMode(BL_PIN, OUTPUT);
   pinMode(HTR_PIN, OUTPUT);
   pinMode(FAN_PIN, OUTPUT);
   Serial.begin(115200);
   dht.begin();
-  delay(5000);
 }
 
 void loop(void){
   if(Serial.available()) serialHandler();
   btnUP.read(); btnDN.read(); btnOK.read();
 
-       if (btnUP.wasReleased()) Serial.println("btnUP");
-  else if (btnDN.wasReleased()) Serial.println("btnDN");
-  else if (btnUP.pressedFor(longPress)){ Serial.println("btnUP"); btnUP.reset(); }
-  else if (btnDN.pressedFor(longPress)){ Serial.println("btnDN"); btnDN.reset(); }
+       if (btnUP.wasReleased()){ Serial.println("btnUP"); if(menuLvl) menuItm ++; }
+  else if (btnDN.wasReleased()){ Serial.println("btnDN"); if(menuLvl) menuItm --; }
+  else if (btnUP.pressedFor(longPress*2)){ Serial.println("btnUPL"); btnUP.reset(); }
+  else if (btnDN.pressedFor(longPress*2)){ Serial.println("btnDNL"); btnDN.reset(); }
   else if (btnOK.pressedFor(longPress*2)){
-    display();
-    Serial.println("btnOKL"); okFlag= true; btnOK.reset();
-  } 
+    menuLvl = 1; Serial.println("btnOKL"); okFlag= true; btnOK.reset(); changeGekon();
+  }
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
-    else Serial.println("btnOK");
+    //if(menuLvl) menuLvl++;
+    else Serial.println(menuLvl);
   }
 
-  readDHT();
-  sensorDataToLDC();
-  termostat(28);
+  if (menuItm != menuItmOld){
+    changeGekon();
+  }
+
+  if (menuLvl == 0){
+    readDHT();
+    sensorDataToLDC();
+    termostat(tempArray[menuItm]);
+  }
 }
 
 void serialHandler(){
@@ -100,9 +110,9 @@ void sendSensorValue(){
 
 void sensorDataToLDC(){
   lcd.setCursor(0,1);
-  lcd.print(currentTemperature,1);
+  lcd.print(currentTemperature, 1);
   lcd.print("C  hum=");
-  lcd.print(currentHumidity,1);
+  lcd.print(currentHumidity, 1);
   lcd.print("%");
 }
 
@@ -116,6 +126,21 @@ void readDHT(){
 }
 
 void display(){
-  Serial.println("displayIng");
-  lcd.print(toDisplay.name());
+  lcd.clear();
+  delay(10);
+  lcd.println(nameArray[menuItm]);
+  lcd.setCursor(0,1);
+  lcd.print(tempArray[menuItm], 1);
+  lcd.print("C  hum=");
+  lcd.print(50, 1);
+  lcd.print("%");
 }
+
+void changeGekon(){
+  if (menuItm == -1) menuItm = 2;
+  if (menuItm == 3) menuItm = 0;
+  display();
+  menuItmOld = menuItm;
+}
+
+
