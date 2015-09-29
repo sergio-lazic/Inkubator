@@ -28,7 +28,8 @@ Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
 DHT dht(DHTPIN, DHTTYPE);
 
-dataMenu leopard("BOG", 25,25);
+dataMenu leopard("geko", 25,25);
+dataMenu toDisplay("void", 0, 0);
 
 float currentTemperature, currentHumidity;
 unsigned long tick, tack;
@@ -50,6 +51,7 @@ void setup(void){
   pinMode(FAN_PIN, OUTPUT);
   Serial.begin(115200);
   dht.begin();
+  delay(5000);
 }
 
 void loop(void){
@@ -60,7 +62,10 @@ void loop(void){
   else if (btnDN.wasReleased()) Serial.println("btnDN");
   else if (btnUP.pressedFor(longPress)){ Serial.println("btnUP"); btnUP.reset(); }
   else if (btnDN.pressedFor(longPress)){ Serial.println("btnDN"); btnDN.reset(); }
-  else if (btnOK.pressedFor(longPress*2)){ Serial.println("btnOKL"); okFlag= true; btnOK.reset(); } 
+  else if (btnOK.pressedFor(longPress*2)){
+    display();
+    Serial.println("btnOKL"); okFlag= true; btnOK.reset();
+  } 
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
     else Serial.println("btnOK");
@@ -108,4 +113,8 @@ void termostat(float temp){
 void readDHT(){
   currentTemperature = dht.readTemperature();
   currentHumidity = dht.readHumidity();
+}
+
+void display(){
+  lcd.print(toDisplay.name());
 }

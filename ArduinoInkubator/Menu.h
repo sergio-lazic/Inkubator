@@ -9,7 +9,12 @@
 class dataMenu
 {
 public:
-	dataMenu(String name, float temperature, float humidity);
+	dataMenu();
+	dataMenu(const dataMenu &dM);
+	dataMenu(String theName, float temperature, float humidity);
+	
+	void operator=(const dataMenu &dM);
+
 	String name();
 	float temperature();
 	float humidity();
