@@ -38,8 +38,7 @@ float tempArray[]{
 
 float currentTemperature, currentHumidity;
 
-int menuItmOld = 0, menuItm = 0;
-bool menuLvl = 0;
+int menuItmOld = 0, menuItm = 0, menuLvl = 0;
 enum {WAIT, INCR, DECR};              //The possible states for the state machine
 uint8_t STATE;                        //The current state machine state
 int count;                            //The number that is adjusted
@@ -68,11 +67,11 @@ void loop(void){
   else if (btnUP.pressedFor(longPress*2)){ Serial.println("btnUPL"); btnUP.reset(); }
   else if (btnDN.pressedFor(longPress*2)){ Serial.println("btnDNL"); btnDN.reset(); }
   else if (btnOK.pressedFor(longPress*2)){
-    menuLvl = !menuLvl; Serial.println("btnOKL"); okFlag= true; btnOK.reset(); changeGekon();
+    menuLvl = 1; Serial.println("btnOKL"); okFlag= true; btnOK.reset(); changeGekon();
   }
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
-    if(menuLvl) menuLvl=0;
+    //if(menuLvl) menuLvl++;
     else Serial.println(menuLvl);
   }
 
@@ -128,7 +127,6 @@ void readDHT(){
 
 void display(){
   lcd.clear();
-  delay(10);
   lcd.println(nameArray[menuItm]);
   lcd.setCursor(0,1);
   lcd.print(tempArray[menuItm], 1);
