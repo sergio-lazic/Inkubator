@@ -71,7 +71,7 @@ void loop(void){
   }
   else if (btnOK.wasReleased()){
     if(okFlag) okFlag= false;
-    //if(menuLvl) menuLvl++;
+    if(menuLvl) menuLvl=0;
     else Serial.println(menuLvl);
   }
 
