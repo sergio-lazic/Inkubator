@@ -43,7 +43,7 @@ int longPress = 500;
 void setup(void){
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print(leopard.Name);
+  lcd.print(leopard.name());
   pinMode(13, OUTPUT);
   pinMode(BL_PIN, OUTPUT);
   pinMode(HTR_PIN, OUTPUT);
@@ -109,5 +109,3 @@ void readDHT(){
   currentTemperature = dht.readTemperature();
   currentHumidity = dht.readHumidity();
 }
-
-

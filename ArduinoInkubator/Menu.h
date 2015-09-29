@@ -9,11 +9,14 @@
 class dataMenu
 {
 public:
-	dataMenu(String Name, float temperature, float humidity);
+	dataMenu(String name, float temperature, float humidity);
+	String name();
+	float temperature();
+	float humidity();
 
-//private:
-	String Name;
-	float temperature;
-	float humidity;
+private:
+	String _name;
+	float _temperature;
+	float _humidity;
 };
 #endif
