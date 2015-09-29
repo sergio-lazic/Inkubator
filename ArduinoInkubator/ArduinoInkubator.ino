@@ -116,5 +116,6 @@ void readDHT(){
 }
 
 void display(){
+  Serial.println("displayIng");
   lcd.print(toDisplay.name());
 }
