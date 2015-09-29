@@ -28,6 +28,8 @@ Button btnOK(OK_PIN, PULLUP, INVERT, DEBOUNCE_MS);
 
 DHT dht(DHTPIN, DHTTYPE);
 
+dataMenu leopard("BOG", 25,25);
+
 float currentTemperature, currentHumidity;
 unsigned long tick, tack;
 
@@ -41,7 +43,7 @@ int longPress = 500;
 void setup(void){
   lcd.begin(16, 2);
   lcd.clear();
-  lcd.print(stranica[0]);
+  lcd.print(leopard.Name);
   pinMode(13, OUTPUT);
   pinMode(BL_PIN, OUTPUT);
   pinMode(HTR_PIN, OUTPUT);
