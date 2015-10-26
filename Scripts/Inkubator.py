@@ -2,6 +2,7 @@
 import json, serial, time
 from datetime import datetime
 
+
 info = "/home/pi/Documents/Inkubator/Scripts/data.json"
 vrsta = "empty"
 temp = 26;
