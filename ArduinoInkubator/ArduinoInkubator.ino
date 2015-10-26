@@ -2,6 +2,7 @@
 #include "DHT.h"
 #include <LiquidCrystal.h>
 
+
 #define DN_PIN 7          //Connect two tactile button switches (or something similar)
 #define UP_PIN 5          //from Arduino pin 2 to ground and from pin 3 to ground.
 #define OK_PIN 6
